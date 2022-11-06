@@ -6,16 +6,26 @@
   <div class="container">
     <div class="row">
       {{ range .Data.Pages }}
+      {{ if site.Params.showProductSections | or (not .IsSection) }}
+      {{ $image := "" }}
+      {{ if .Params.Image }}
+        {{ $image = .Params.Image | absURL }}
+      {{ else }}
+        {{ if .Params.Images }}
+          {{ range first 1 .Params.Images }}
+            {{ $image = .image | absURL }}
+          {{ end }}
+        {{ end }}
+      {{ end }}
       <div class="col-lg-4 col-sm-6 mb-4">
         <div class="card border-0 text-center">
           <a href="{{ .Permalink }}">
-            {{ range first 1 .Params.Images }}
-            <img src="{{ .image | absURL }}" alt="{{ .Title }}" class="card-img-top">
-            {{ end }}
+            <img src="{{ $image }}" alt="{{ .Title }}" class="card-img-top">
           </a>
           <div class="card-body">
             <a href="{{ .Permalink }}" class="h4">{{ .Title }}</a>
             <p>{{ .Params.Description }}</p>
+            {{ if .Params.Price }}
             <div class="mb-4">
               {{ if .Params.PriceBefore }}
               <s>{{ site.Params.currencySymbol }}{{ .Params.PriceBefore }}</s>
@@ -23,13 +33,15 @@
               <span class="lead text-primary">{{ site.Params.currencySymbol }}{{ .Params.Price }}</span>
             </div>
             <button class="snipcart-add-item btn btn-sm btn-outline-primary" data-item-id="{{ .Params.ProductID }}"
-              data-item-name="{{ .Title }}" {{ range first 1 .Params.Images }} data-item-image="{{ .image | absURL }}"
-              {{ end }} data-item-price="{{ .Params.Price }}" data-item-url="{{ .Permalink }}" data-item-description="{{ .Description }}">
+              data-item-name="{{ .Title }}" data-item-image="{{ $image }}"
+              data-item-price="{{ .Params.Price }}" data-item-url="{{ .Permalink }}" data-item-description="{{ .Description }}">
               Add to cart
             </button>
+            {{ end }}
           </div>
         </div>
       </div>
+      {{ end }}
       {{ end }}
     </div>
   </div>

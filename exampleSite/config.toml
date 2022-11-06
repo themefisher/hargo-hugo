@@ -102,6 +102,8 @@ copyright = "| Copyright &copy; 2019 [Gethugothemes](https://gethugothemes.com) 
 # Snipcart Credentials
 snipcartApiKey = "M2E5YjA3NjMtYzRiYS00YzVjLWEyYWYtNDY5ZDI0OWZhYjg5"
 currencySymbol = "$"
+# whether to show product sections among products
+showProductSections = true
 
   # Preloader
   [params.preloader]

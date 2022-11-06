@@ -5,6 +5,15 @@
 <section class="section pt-0">
   <div class="container">
     <div class="row">
+      {{ $image := "" }}
+      {{ if .Params.Image }}
+        {{ $image = .Params.Image | absURL }}
+      {{ else }}
+        {{ range first 1 .Params.Images }}
+          {{ $image = .image | absURL }}
+        {{ end }}
+      {{ end }}
+
       <div class="col-lg-5 mb-4 mb-lg-0">
         <!-- product image slider -->
         <div class="product-slider">
@@ -30,7 +39,7 @@
         <h5>Short Description</h5>
         <p>{{ .Params.ShortDescription | markdownify }}</p>
         <button class="snipcart-add-item btn btn-primary" data-item-id="{{ .Params.ProductID }}"
-          data-item-name="{{ .Title }}" {{ range first 1 .Params.Images }} data-item-image="{{ .image | absURL }}"
+          data-item-name="{{ .Title }}" {{ range first 1 .Params.Images }} data-item-image="{{ $image }}"
           {{ end }} data-item-price="{{ .Params.Price }}" data-item-url="{{ .Permalink }}" data-item-description="{{ .Description }}">
           Add to cart
         </button>
